@@ -1,6 +1,7 @@
 package com.stockaroo.asxnewsapp.service;
 
 import com.stockaroo.asxnewsapp.model.Article;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,6 +15,12 @@ public class ArticleService {
     public ArticleService (MongoTemplate mongoTemplate ) {
         this.mongoTemplate = mongoTemplate;
     }
+
+    public List<Article> getLatestArticles() {
+        Query query = new Query().limit(15);
+        return mongoTemplate.find(query.with(Sort.by(Sort.Direction.DESC, "detectedTimestamp")), Article.class);
+    }
+
 
     public List<Article> getArticles (Article article) {
         Query query = new Query();

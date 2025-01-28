@@ -1,6 +1,8 @@
 package com.stockaroo.asxnewsapp.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -18,6 +20,8 @@ public class Article {
 
     @Id
     public String id;
+
+    @Indexed(direction = IndexDirection.DESCENDING)
     public Instant detectedTimestamp;
     public String source;
     public String title;
