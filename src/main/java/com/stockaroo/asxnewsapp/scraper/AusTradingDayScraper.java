@@ -11,31 +11,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AfrStreetTalkScraper extends AbstractSiteScraper {
+public class AusTradingDayScraper extends AbstractSiteScraper {
 
     private final ArticleService articleService;
 
-    public AfrStreetTalkScraper(ArticleService articleService) {
+    public AusTradingDayScraper(ArticleService articleService) {
         this.articleService = articleService;
     }
 
     @Override
-
+    @Scheduled(fixedRate = 300000)
     protected void performScraping() {
-        driver.get("https://afr.com/street-talk");
+        driver.get("https://www.theaustralian.com.au/business");
+        System.out.println(driver.toString());
 
-        List<WebElement> newsElements = driver.findElements(By.cssSelector("[data-testid='MarketSimpleStoryTile']"));
+        List<WebElement> newsElements = driver.findElements(By.xpath("//ul[@class='livecoverage-posts']"));
+
+        System.out.println(newsElements);
 
         List<Article> articles = new ArrayList<>();
 
         for(WebElement e : newsElements) {
             Instant now = Instant.now();
             Article article = new Article(now,
-                "AFR Street Talk",
-                e.findElement(By.cssSelector("[data-testid='StoryTileHeadline-h3']")).getText(),
-                e.findElement(By.cssSelector("[data-pb-type=ab]")).getText(),
-                //System.out.println(e.findElement(By.cssSelector("[data-testid='StoryTile-Timestamp']")).getAttribute("datetime"));
-                now, e.findElement(By.cssSelector("[data-testid='StoryTileHeadline-h3']")).findElement(By.tagName("a")).getAttribute("href")
+                "The Australian Trading Day",
+                e.findElement(By.className("livecoverage-posts_title")).getText(),
+                "Not available",
+                now,
+                e.findElement(By.className("livecoverage-posts_title")).findElement(By.tagName("a")).getAttribute("href")
             );
 
             boolean isNewArticle = articleService.saveArticleIfNotExists(article);

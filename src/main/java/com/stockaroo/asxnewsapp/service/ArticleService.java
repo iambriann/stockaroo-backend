@@ -41,7 +41,7 @@ public class ArticleService {
 
         // Save the article if it doesn't exist
         mongoTemplate.save(article);
-        System.out.println("Article saved: " + article.getTitle());
+        System.out.println("Article saved: " + article.getTitle() + " " + article.getLink());
         return true;
     }
 }

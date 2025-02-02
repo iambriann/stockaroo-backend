@@ -10,23 +10,27 @@ import java.time.Instant;
 @Document(collection = "articles")
 public class Article {
 
-    public Article(Instant detectedTimestamp, String source, String title, String desc, Instant publishedTimestamp) {
+    public Article(Instant detectedTimestamp, String source, String title, String desc, Instant publishedTimestamp, String link) {
         this.detectedTimestamp = detectedTimestamp;
         this.source = source;
         this.title = title;
         this.desc = desc;
         this.publishedTimestamp = publishedTimestamp;
+        this.link = link;
     }
 
     @Id
-    public String id;
+    private String id;
 
     @Indexed(direction = IndexDirection.DESCENDING)
-    public Instant detectedTimestamp;
-    public String source;
-    public String title;
-    public String desc;
-    public Instant publishedTimestamp;
+    private Instant detectedTimestamp;
+    private String source;
+    private String title;
+    private String desc;
+    private Instant publishedTimestamp;
+    private String link;
+
+
 
     public String getId() {
         return id;
@@ -74,5 +78,13 @@ public class Article {
 
     public void setPublishedTimestamp(Instant publishedTimestamp) {
         this.publishedTimestamp = publishedTimestamp;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }
