@@ -20,13 +20,12 @@ public class AfrStreetTalkScraper extends AbstractSiteScraper {
     }
 
     @Override
-
+    @Scheduled(fixedRate = 300000)
     protected void performScraping() {
         driver.get("https://afr.com/street-talk");
+        System.out.println(driver.getTitle());
 
         List<WebElement> newsElements = driver.findElements(By.cssSelector("[data-testid='MarketSimpleStoryTile']"));
-
-        List<Article> articles = new ArrayList<>();
 
         for(WebElement e : newsElements) {
             Instant now = Instant.now();

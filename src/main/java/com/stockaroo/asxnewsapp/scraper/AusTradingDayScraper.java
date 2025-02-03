@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +24,9 @@ public class AusTradingDayScraper extends AbstractSiteScraper {
     @Override
     @Scheduled(fixedRate = 300000)
     protected void performScraping() {
-        driver.get("https://www.theaustralian.com.au/business");
-        System.out.println(driver.toString());
+        driver.get("https://theaustralian.com.au/business");
 
-        List<WebElement> newsElements = driver.findElements(By.xpath("//ul[@class='livecoverage-posts']"));
-
-        System.out.println(newsElements);
-
-        List<Article> articles = new ArrayList<>();
+        List<WebElement> newsElements = driver.findElements(By.cssSelector("ul.livecoverage-posts > li"));
 
         for(WebElement e : newsElements) {
             Instant now = Instant.now();
