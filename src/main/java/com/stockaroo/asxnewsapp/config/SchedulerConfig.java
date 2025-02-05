@@ -3,6 +3,7 @@ package com.stockaroo.asxnewsapp.config;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.stockaroo.asxnewsapp.scraper.AfrStreetTalkScraper;
+import com.stockaroo.asxnewsapp.scraper.AsxScraper;
 import com.stockaroo.asxnewsapp.scraper.AusTradingDayScraper;
 import com.stockaroo.asxnewsapp.service.ArticleService;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,5 +47,10 @@ public class SchedulerConfig {
     @Bean
     public AusTradingDayScraper ausTradingDayScraper(ArticleService articleService) {
         return new AusTradingDayScraper(articleService);
+    }
+
+    @Bean
+    public AsxScraper asxScraper(ArticleService articleService) {
+        return new AsxScraper(articleService);
     }
 }

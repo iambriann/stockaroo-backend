@@ -22,7 +22,7 @@ public class AusTradingDayScraper extends AbstractSiteScraper {
     }
 
     @Override
-    @Scheduled(fixedRate = 300000)
+//    @Scheduled(fixedRate = 300000)
     protected void performScraping() {
         driver.get("https://theaustralian.com.au/business");
 
