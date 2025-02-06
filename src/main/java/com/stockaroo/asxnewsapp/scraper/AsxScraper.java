@@ -24,23 +24,27 @@ public class AsxScraper extends AbstractSiteScraper {
 
         List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 
-        System.out.println(newsElements.size());
+        for (WebElement e : newsElements) {
+            String priceSensitive = e.findElement(By.className("price-sensitive")).getText();
+            if(priceSensitive.equals("yes")) {
+                continue;
+            }
 
-//        for (WebElement e : newsElements) {
-//            Instant now = Instant.now();
-//            Article article = new Article(now,
-//                    "ASX Announcement",
-//                    e.findElement(By.className("livecoverage-posts_title")).getText(),
-//                    "Not available",
-//                    now,
-//                    e.findElement(By.className("livecoverage-posts_title")).findElement(By.tagName("a")).getAttribute("href")
-//            );
-//
-//            boolean isNewArticle = articleService.saveArticleIfNotExists(article);
-//
-//            if (!isNewArticle) {
-//                break;
-//            }
-//        }
+            Instant now = Instant.now();
+            Article article = new Article(now,
+                    "ASX Announcement",
+                    //e.findElement(By.xpath("./*[2]")).getText() + " " + ,
+                    e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
+                    e.findElement(By.tagName("a")).getText(),
+                    now,
+                    e.findElement(By.tagName("a")).getAttribute("href")
+            );
+
+            boolean isNewArticle = articleService.saveArticleIfNotExists(article);
+
+            if (!isNewArticle) {
+                break;
+            }
+        }
     }
 }
