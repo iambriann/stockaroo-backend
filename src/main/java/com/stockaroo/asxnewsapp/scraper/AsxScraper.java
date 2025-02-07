@@ -24,20 +24,21 @@ public class AsxScraper extends AbstractSiteScraper {
 
         List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 
+        int i=0;
         for (WebElement e : newsElements) {
+
             String priceSensitive = e.findElement(By.className("price-sensitive")).getText();
-            if(priceSensitive.equals("yes")) {
+            if(priceSensitive.equals("no")) {
                 continue;
             }
 
             Instant now = Instant.now();
             Article article = new Article(now,
                     "ASX Announcement",
-                    //e.findElement(By.xpath("./*[2]")).getText() + " " + ,
-                    e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
-                    e.findElement(By.tagName("a")).getText(),
+                    e.findElement(By.xpath("./td[2]")).getText() + " " + e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
+                    e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getText().split("\n")[0],
                     now,
-                    e.findElement(By.tagName("a")).getAttribute("href")
+                    e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getAttribute("href")
             );
 
             boolean isNewArticle = articleService.saveArticleIfNotExists(article);
