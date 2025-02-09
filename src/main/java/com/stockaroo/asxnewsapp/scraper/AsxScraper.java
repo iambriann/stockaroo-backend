@@ -24,7 +24,6 @@ public class AsxScraper extends AbstractSiteScraper {
 
         List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 
-        int i=0;
         for (WebElement e : newsElements) {
 
             String priceSensitive = e.findElement(By.className("price-sensitive")).getText();
