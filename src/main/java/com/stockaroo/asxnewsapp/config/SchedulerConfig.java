@@ -2,6 +2,8 @@ package com.stockaroo.asxnewsapp.config;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.stockaroo.asxnewsapp.scheduler.ScraperTaskScheduler;
+import com.stockaroo.asxnewsapp.scraper.AbstractSiteScraper;
 import com.stockaroo.asxnewsapp.scraper.AfrStreetTalkScraper;
 import com.stockaroo.asxnewsapp.scraper.AsxScraper;
 import com.stockaroo.asxnewsapp.scraper.AusTradingDayScraper;
@@ -13,6 +15,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.List;
 
 @Configuration
 @EnableScheduling
@@ -40,17 +44,25 @@ public class SchedulerConfig {
     }
 
     @Bean
-    public AfrStreetTalkScraper afrStreetTalkScraper(ArticleService articleService) {
+    public AbstractSiteScraper afrStreetTalkScraper(ArticleService articleService) {
         return new AfrStreetTalkScraper(articleService);
     }
 
     @Bean
-    public AusTradingDayScraper ausTradingDayScraper(ArticleService articleService) {
+    public AbstractSiteScraper ausTradingDayScraper(ArticleService articleService) {
         return new AusTradingDayScraper(articleService);
     }
 
     @Bean
-    public AsxScraper asxScraper(ArticleService articleService) {
+    public AbstractSiteScraper asxScraper(ArticleService articleService) {
         return new AsxScraper(articleService);
     }
+
+    @Bean
+    public ScraperTaskScheduler scraperTaskScheduler(List<AbstractSiteScraper> scrapers) {
+        ScraperTaskScheduler scheduler = new ScraperTaskScheduler(scrapers);
+        scheduler.startScheduling();
+        return scheduler;
+    }
+
 }
