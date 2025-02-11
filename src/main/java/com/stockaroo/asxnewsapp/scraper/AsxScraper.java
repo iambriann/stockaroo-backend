@@ -40,11 +40,11 @@ public class AsxScraper extends AbstractSiteScraper {
                     e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getAttribute("href")
             );
 
-            boolean isNewArticle = articleService.saveArticleIfNotExists(article);
-
-            if (!isNewArticle) {
-                break;
-            }
+//            boolean isNewArticle = articleService.saveArticleIfNotExists(article);
+//
+//            if (!isNewArticle) {
+//                break;
+//            }
         }
     }
 }
