@@ -18,7 +18,6 @@ public class AsxScraper extends AbstractSiteScraper {
     }
 
     @Override
-    @Scheduled(fixedRate = 300000)
     protected void performScraping() {
         driver.get("https://www.asx.com.au/markets/trade-our-cash-market/announcements");
 
