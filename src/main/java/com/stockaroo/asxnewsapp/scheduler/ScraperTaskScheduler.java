@@ -49,7 +49,7 @@ public class ScraperTaskScheduler {
     }
 
     private long getRandomDelay() {
-        return 60000L + random.nextInt(120000); // Random delay between 1 and 5 seconds
+        return 60000L + random.nextInt(120000); // Random delay between 1 and 3 minutes
     }
 
     public void shutdown() {
