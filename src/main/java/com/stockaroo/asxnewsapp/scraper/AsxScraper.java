@@ -18,7 +18,6 @@ public class AsxScraper extends AbstractSiteScraper {
     }
 
     @Override
-    @Scheduled(fixedRate = 300000)
     protected void performScraping() {
         driver.get("https://www.asx.com.au/markets/trade-our-cash-market/announcements");
 
@@ -40,7 +39,7 @@ public class AsxScraper extends AbstractSiteScraper {
                     e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getAttribute("href")
             );
 
-//            boolean isNewArticle = articleService.saveArticleIfNotExists(article);
+            boolean isNewArticle = articleService.saveArticleIfNotExists(article);
 //
 //            if (!isNewArticle) {
 //                break;
