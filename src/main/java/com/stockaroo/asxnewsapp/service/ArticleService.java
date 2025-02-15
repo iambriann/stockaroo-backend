@@ -17,7 +17,7 @@ public class ArticleService {
     }
 
     public List<Article> getLatestArticles() {
-        Query query = new Query().limit(50);
+        Query query = new Query().limit(70);
         return mongoTemplate.find(query.with(Sort.by(Sort.Direction.DESC, "detectedTimestamp")), Article.class);
     }
 
