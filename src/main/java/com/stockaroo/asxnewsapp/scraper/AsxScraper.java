@@ -20,6 +20,7 @@ public class AsxScraper extends AbstractSiteScraper {
     @Override
     protected void performScraping() {
         driver.get("https://www.asx.com.au/markets/trade-our-cash-market/announcements");
+        System.out.println(driver.getTitle());
 
         List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 
@@ -33,7 +34,7 @@ public class AsxScraper extends AbstractSiteScraper {
             Instant now = Instant.now();
             Article article = new Article(now,
                     "ASX Announcement",
-                    e.findElement(By.xpath("./td[2]")).getText() + " " + e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
+                    e.findElement(By.xpath("./td[2]")).getText() + " ASX announcement for " + e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
                     e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getText().split("\n")[0],
                     now,
                     e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getAttribute("href")
