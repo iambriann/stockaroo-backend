@@ -18,6 +18,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Grant execute permission to Maven wrapper
+        run: chmod +x ./mvnw
+
       - name: Build Spring Boot Application
         run: ./mvnw clean package -DskipTests
 
