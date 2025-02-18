@@ -28,15 +28,15 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USER }}/stockaroo:latest .
+        run: docker build -t ${{ secrets.DOCKER_USER }}/stockaroo:backend .
 
       - name: Push Docker Image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USER }}/stockaroo:latest
+        run: docker push ${{ secrets.DOCKER_USER }}/stockaroo:backend
 
       - name: Run Docker Container
         run: |
           docker run -d \
           -e DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }} \
           -p 8080:8080 \
-          ${{ secrets.DOCKER_USER }}/stockaroo:latest
+          ${{ secrets.DOCKER_USER }}/stockaroo:backend
 
