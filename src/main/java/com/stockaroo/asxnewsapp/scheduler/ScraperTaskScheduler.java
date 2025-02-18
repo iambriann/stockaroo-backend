@@ -34,13 +34,13 @@ public class ScraperTaskScheduler {
         threadPool.scheduleAtFixedRate(() -> {
             LocalTime now = LocalTime.now();
             DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
-            // Only run during weekdays (Monday - Friday) from 7 AM to 9 PM
+            // Only run during weekdays (Monday - Friday) from 7 AM to 6 PM
             if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
-                if (now.isAfter(LocalTime.of(7, 0)) && now.isBefore(LocalTime.of(21, 0))) {
+                if (now.isAfter(LocalTime.of(7, 0)) && now.isBefore(LocalTime.of(18, 0))) {
                     scraper.scrape();
                     System.out.println("Next scrape for " + scraper.toString());
                 } else {
-                    System.out.println("Outside of allowed time window (7 AM - 9 PM). Skipping.");
+                    System.out.println("Outside of allowed time window (7 AM - 6 PM). Skipping.");
                 }
             } else {
                 System.out.println("It's the weekend. Skipping scrape.");
