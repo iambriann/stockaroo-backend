@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Update db connection string
-        run: sed -i 's/<DB_CONNECTION_STRING>/${{ secrets.DB_CONNECTION_STRING }}/' src/main/resources/application.properties
+        run: sed -i 's|<DB_CONNECTION_STRING>|${{ secrets.DB_CONNECTION_STRING }}|' src/main/resources/application.properties
 
       - name: Grant execute permission to Maven wrapper
         run: chmod +x ./mvnw
