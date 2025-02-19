@@ -18,6 +18,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Update db connection string
+        run: sed -i 's/<DB_CONNECTION_STRING>/${{ secrets.DB_CONNECTION_STRING }}/' src/main/resources/application.properties
+
       - name: Grant execute permission to Maven wrapper
         run: chmod +x ./mvnw
 
@@ -33,16 +36,16 @@ jobs:
       - name: Push Docker Image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USER }}/stockaroo:backend
 
-      - name: Deploy Docker Container onto VPS
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          script: |
-            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker pull ${{ secrets.DOCKER_USER }}/stockaroo:backend
-            docker stop stockaroo_backend || true
-            docker rm stockaroo_backend || true
-            docker run -d -e DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }} -p 8080:8080 --name stockaroo_backend ${{ secrets.DOCKER_USER }}/stockaroo:backend
-
+#      - name: Deploy Docker Container onto VPS
+#        uses: appleboy/ssh-action@v0.1.10
+#        with:
+#          host: ${{ secrets.VPS_HOST }}
+#          username: ${{ secrets.VPS_USER }}
+#          password: ${{ secrets.VPS_PASSWORD }}
+#          script: |
+#            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+#            docker pull ${{ secrets.DOCKER_USER }}/stockaroo:backend
+#            docker stop stockaroo_backend || true
+#            docker rm stockaroo_backend || true
+#            docker run -d -e DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }} -p 8080:8080 --name stockaroo_backend ${{ secrets.DOCKER_USER }}/stockaroo:backend
+#
