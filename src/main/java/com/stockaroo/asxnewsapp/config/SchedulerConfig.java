@@ -45,6 +45,9 @@ public class SchedulerConfig {
         options.addArguments("--headless=new"); // Updated headless mode for Chrome
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--disable-infobars");
+        options.addArguments("--incognito");
         options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
         return new ChromeDriver(options);
     }
