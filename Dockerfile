@@ -12,6 +12,7 @@ RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.
 RUN ls -lh chromedriver-linux64.zip
 RUN unzip chromedriver-linux64.zip -d /usr/local/bin/
 RUN rm chromedriver-linux64.zip
+RUN chmod +x /usr/local/bin/chrome-linux64/chrome
 RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver
 RUN rm -rf chrome-linux64* chromedriver-linux64*
 EXPOSE 8080
