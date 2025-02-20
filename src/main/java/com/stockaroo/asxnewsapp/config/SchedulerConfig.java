@@ -3,17 +3,19 @@ package com.stockaroo.asxnewsapp.config;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.stockaroo.asxnewsapp.scheduler.ScraperTaskScheduler;
-import com.stockaroo.asxnewsapp.scraper.AbstractSiteScraper;
 import com.stockaroo.asxnewsapp.scraper.AfrStreetTalkScraper;
 import com.stockaroo.asxnewsapp.scraper.AsxScraper;
 import com.stockaroo.asxnewsapp.scraper.AusTradingDayScraper;
+import com.stockaroo.asxnewsapp.scraper.BaseScraper;
 import com.stockaroo.asxnewsapp.service.ArticleService;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
@@ -36,6 +38,17 @@ public class SchedulerConfig {
         return new MongoTemplate(mongoClient, "stockaroo");
     }
 
+    @Bean
+    public WebDriver webDriver() {
+        // Set up Chrome options
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new"); // Updated headless mode for Chrome
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+        return new ChromeDriver(options);
+    }
+
 
     @Bean
     @Scope("prototype")
@@ -44,22 +57,22 @@ public class SchedulerConfig {
     }
 
     @Bean
-    public AbstractSiteScraper afrStreetTalkScraper(ArticleService articleService) {
-        return new AfrStreetTalkScraper(articleService);
+    public BaseScraper afrStreetTalkScraper(ArticleService articleService, WebDriver driver) {
+        return new AfrStreetTalkScraper(articleService, driver);
     }
 
     @Bean
-    public AbstractSiteScraper ausTradingDayScraper(ArticleService articleService) {
-        return new AusTradingDayScraper(articleService);
+    public BaseScraper ausTradingDayScraper(ArticleService articleService, WebDriver driver) {
+        return new AusTradingDayScraper(articleService, driver);
     }
 
     @Bean
-    public AbstractSiteScraper asxScraper(ArticleService articleService) {
-        return new AsxScraper(articleService);
+    public BaseScraper asxScraper(ArticleService articleService, WebDriver driver) {
+        return new AsxScraper(articleService, driver);
     }
 
     @Bean
-    public ScraperTaskScheduler scraperTaskScheduler(List<AbstractSiteScraper> scrapers) {
+    public ScraperTaskScheduler scraperTaskScheduler(List<BaseScraper> scrapers) {
         ScraperTaskScheduler scheduler = new ScraperTaskScheduler(scrapers);
         scheduler.startScheduling();
         return scheduler;

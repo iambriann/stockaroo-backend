@@ -3,22 +3,25 @@ package com.stockaroo.asxnewsapp.scraper;
 import com.stockaroo.asxnewsapp.model.Article;
 import com.stockaroo.asxnewsapp.service.ArticleService;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.Instant;
 import java.util.List;
 
-public class AsxScraper extends AbstractSiteScraper {
-
+public class AsxScraper implements BaseScraper {
+    private final WebDriver driver;
     private final ArticleService articleService;
 
-    public AsxScraper(ArticleService articleService) {
+    public AsxScraper(ArticleService articleService, WebDriver driver) {
+
         this.articleService = articleService;
+        this.driver = driver;
     }
 
-    @Override
-    protected void performScraping() {
+    public void performScraping() {
+
         driver.get("https://www.asx.com.au/markets/trade-our-cash-market/announcements");
         System.out.println(driver.getTitle());
 

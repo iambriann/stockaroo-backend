@@ -1,5 +1,5 @@
 package com.stockaroo.asxnewsapp.scraper;
 
 public interface BaseScraper {
-    void scrape();
+    public void performScraping();
 }
