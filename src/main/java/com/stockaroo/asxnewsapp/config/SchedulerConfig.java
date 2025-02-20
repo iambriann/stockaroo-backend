@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @Configuration
@@ -42,7 +44,15 @@ public class SchedulerConfig {
     public WebDriver webDriver() {
         // Set up Chrome options
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Updated headless mode for Chrome
+        Path tempDir;
+        try {
+            tempDir = Files.createTempDirectory("chrome-user-data");
+            options.addArguments("--user-data-dir=" + tempDir.toAbsolutePath());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create temp directory for Chrome", e);
+        }
+
+        options.addArguments("--headless=new"); // Updated headless mode for Chrome
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-extensions");
