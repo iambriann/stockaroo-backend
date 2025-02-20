@@ -11,6 +11,8 @@ import com.stockaroo.asxnewsapp.service.ArticleService;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,15 +45,7 @@ public class SchedulerConfig {
     @Bean
     public WebDriver webDriver() {
         // Set up Chrome options
-        ChromeOptions options = new ChromeOptions();
-        Path tempDir;
-        try {
-            tempDir = Files.createTempDirectory("chrome-user-data");
-            options.addArguments("--user-data-dir=" + tempDir.toAbsolutePath());
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create temp directory for Chrome", e);
-        }
-
+        FirefoxOptions options = new FirefoxOptions();
         options.addArguments("--headless=new"); // Updated headless mode for Chrome
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
@@ -59,7 +53,7 @@ public class SchedulerConfig {
         options.addArguments("--disable-infobars");
         options.addArguments("--incognito");
         options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-        return new ChromeDriver(options);
+        return new FirefoxDriver(options);
     }
 
 
