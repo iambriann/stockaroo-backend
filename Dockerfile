@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libxss1 \
     libappindicator3-1 \
-    libindicator7 \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.126/linux64/chrome-linux64.zip
