@@ -46,7 +46,7 @@ public class SchedulerConfig {
     public WebDriver webDriver() {
         // Set up Chrome options
         FirefoxOptions options = new FirefoxOptions();
-        options.addArguments("--headless=new"); // Updated headless mode for Chrome
+        options.addArguments("--headless"); // Updated headless mode for Chrome
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-extensions");
