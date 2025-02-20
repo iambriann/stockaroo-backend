@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     libx11-6 \
     libx11-xcb1 \
     libgbm1 \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.126/linux64/chrome-linux64.zip
 RUN unzip chrome-linux64.zip -d /usr/local/bin/
 RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.126/linux64/chromedriver-linux64.zip
