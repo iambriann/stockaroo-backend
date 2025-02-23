@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -43,9 +46,11 @@ public class SchedulerConfig {
     }
 
     @Bean
-    public WebDriver webDriver() {
+    public WebDriver webDriver() throws MalformedURLException {
         // Set up Chrome options
-        FirefoxOptions options = new FirefoxOptions();
+        URL gridUrl = new URL("http://localhost:4444");
+
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Updated headless mode for Chrome
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
@@ -53,7 +58,7 @@ public class SchedulerConfig {
         options.addArguments("--disable-infobars");
         options.addArguments("--incognito");
         options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-        return new FirefoxDriver(options);
+        return new RemoteWebDriver(gridUrl, options);
     }
 
 
