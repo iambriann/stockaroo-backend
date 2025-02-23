@@ -46,11 +46,9 @@ public class SchedulerConfig {
     }
 
     @Bean
-    public WebDriver webDriver() throws MalformedURLException {
-        // Set up Chrome options
-        URL gridUrl = new URL("http://localhost:4444");
-
+    public ChromeDriver webDriver() {
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis()); // Unique profile dir1
         options.addArguments("--headless"); // Updated headless mode for Chrome
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
@@ -58,7 +56,7 @@ public class SchedulerConfig {
         options.addArguments("--disable-infobars");
         options.addArguments("--incognito");
         options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-        return new RemoteWebDriver(gridUrl, options);
+        return new ChromeDriver(options);
     }
 
 

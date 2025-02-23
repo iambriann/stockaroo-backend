@@ -1,21 +1,18 @@
 FROM openjdk:17-jdk-slim
-RUN apt-get update && apt-get install -y \
-    wget \
-    unzip \
-    libxss1 \
-    libappindicator3-1 \
-    libnss3 \
-    libx11-6 \
-    libx11-xcb1 \
-    libgbm1 \
-    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
-RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.126/linux64/chromedriver-linux64.zip
-RUN ls -lh chromedriver-linux64.zip
-RUN unzip chromedriver-linux64.zip -d /usr/local/bin/
-RUN rm chromedriver-linux64.zip
-RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver
-RUN rm -rf chromedriver-linux64*
+# please review all the latest versions here:
+# https://googlechromelabs.github.io/chrome-for-testing/
+ENV CHROMEDRIVER_VERSION=133.0.6943.126
+
+### install chrome
+RUN apt-get update && apt-get install -y wget && apt-get install -y zip
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+### install chromedriver
+RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip \
+  && unzip chromedriver-linux64.zip && rm -dfr chromedriver_linux64.zip \
+  && mv /chromedriver-linux64/chromedriver /usr/bin/chromedriver \
+  && chmod +x /usr/bin/chromedriver
 WORKDIR /app
 COPY target/asx-news-app*.jar app.jar
 EXPOSE 8080
