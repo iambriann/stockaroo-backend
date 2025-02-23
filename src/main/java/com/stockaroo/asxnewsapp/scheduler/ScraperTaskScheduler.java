@@ -2,9 +2,7 @@ package com.stockaroo.asxnewsapp.scheduler;
 
 import com.stockaroo.asxnewsapp.scraper.AbstractSiteScraper;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executor;
@@ -32,11 +30,13 @@ public class ScraperTaskScheduler {
         long initialDelay = getRandomDelay();
         System.out.println("Scheduling scraper for URL: " + scraper.toString() + " with initial delay " + initialDelay + " ms");
         threadPool.scheduleAtFixedRate(() -> {
-            LocalTime now = LocalTime.now();
-            DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
+            ZoneId sydneyZone = ZoneId.of("Australia/Sydney");
+            ZonedDateTime now = ZonedDateTime.now(sydneyZone);
+            LocalTime currentTime = now.toLocalTime();
+            DayOfWeek dayOfWeek = now.getDayOfWeek();
             // Only run during weekdays (Monday - Friday) from 7 AM to 6 PM
             if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
-                if (now.isAfter(LocalTime.of(7, 0)) && now.isBefore(LocalTime.of(18, 0))) {
+                if (currentTime.isAfter(LocalTime.of(7, 0)) && currentTime.isBefore(LocalTime.of(18, 0))) {
                     scraper.scrape();
                     System.out.println("Next scrape for " + scraper.toString());
                 } else {
