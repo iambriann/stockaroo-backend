@@ -53,10 +53,10 @@ public class SchedulerConfig {
         return new AusTradingDayScraper(articleService);
     }
 
-    @Bean
-    public AbstractSiteScraper asxScraper(ArticleService articleService) {
-        return new AsxScraper(articleService);
-    }
+//    @Bean
+//    public AbstractSiteScraper asxScraper(ArticleService articleService) {
+//        return new AsxScraper(articleService);
+//    }
 
     @Bean
     public ScraperTaskScheduler scraperTaskScheduler(List<AbstractSiteScraper> scrapers) {
