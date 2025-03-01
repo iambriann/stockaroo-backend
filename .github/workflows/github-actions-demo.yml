@@ -27,6 +27,15 @@ jobs:
       - name: Update db connection string
         run: sed -i 's|<DB_CONNECTION_STRING>|${{ secrets.DB_CONNECTION_STRING }}|' src/main/resources/application.properties
 
+      - name: Decode keystore file from GitHub Secrets
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > src/main/resources/keystore.p12
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+
+      - name: Update keystore password
+        run: sed -i 's|<KEYSTORE_PASSWORD>|${{ secrets.KEYSTORE_PASSWORD }}|' src/main/resources/application.properties
+
       - name: Grant execute permission to Maven wrapper
         run: chmod +x ./mvnw
 

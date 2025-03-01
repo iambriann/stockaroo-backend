@@ -15,16 +15,12 @@ import java.util.List;
 @RequestMapping("/")
 public class ArticleController {
 
-    @Value("${CORS_ORIGIN_URL}")
-    private String corsOriginUrl;
-
     private final ArticleService articleService;
 
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
     }
 
-    @CrossOrigin(origins = "${CORS_ORIGIN_URL}")
     @GetMapping("/latest")
     public List<Article> getLatestArticles() {
         return articleService.getLatestArticles();

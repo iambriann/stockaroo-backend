@@ -15,12 +15,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
 @Configuration
 @EnableScheduling
 public class SchedulerConfig {
+
 
     @Value("${spring.data.mongodb.uri}")
     private String connectionString;
@@ -29,6 +32,18 @@ public class SchedulerConfig {
     public MongoClient mongoClient() {
         // Replace with your MongoDB connection URI
         return MongoClients.create(connectionString);
+    }
+
+    @Value("${CORS_ORIGIN_URL}")
+    private String corsOriginUrl;
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin(corsOriginUrl);  // Dynamic origin URL
+        config.addAllowedMethod("*");  // Allow all HTTP methods
+        config.addAllowedHeader("*");  // Allow all headers
+        return new CorsFilter(request -> config);
     }
 
     @Bean
