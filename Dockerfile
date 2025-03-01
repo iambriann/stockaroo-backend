@@ -15,5 +15,5 @@ RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROMEDRIV
   && chmod +x /usr/bin/chromedriver
 WORKDIR /app
 COPY target/asx-news-app*.jar app.jar
-EXPOSE 8080
+EXPOSE 443
 ENTRYPOINT ["java", "-jar", "app.jar"]
