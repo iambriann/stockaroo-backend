@@ -14,6 +14,7 @@ public class AsxScraper extends AbstractSiteScraper {
     private final ArticleService articleService;
 
     public AsxScraper(ArticleService articleService) {
+        super("ASX Announcement Scraper");
         this.articleService = articleService;
     }
 

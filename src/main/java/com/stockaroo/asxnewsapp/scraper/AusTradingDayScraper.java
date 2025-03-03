@@ -18,6 +18,7 @@ public class AusTradingDayScraper extends AbstractSiteScraper {
     private final ArticleService articleService;
 
     public AusTradingDayScraper(ArticleService articleService) {
+        super("Australian Trading Day Scraper");
         this.articleService = articleService;
     }
 

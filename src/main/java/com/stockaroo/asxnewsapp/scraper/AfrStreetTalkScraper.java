@@ -16,6 +16,7 @@ public class AfrStreetTalkScraper extends AbstractSiteScraper {
     private final ArticleService articleService;
 
     public AfrStreetTalkScraper(ArticleService articleService) {
+        super("AFR Street Talk Scraper");
         this.articleService = articleService;
     }
 
