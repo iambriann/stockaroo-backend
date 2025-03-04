@@ -62,11 +62,11 @@ public class ScraperTaskScheduler {
 
     public void restartOrScrapeHelper(AbstractSiteScraper scraper, LocalTime current, LocalTime start, LocalTime end) {
         if(current.isAfter(start) && current.isBefore(end)) {
-            if(Instant.now().minus(30, ChronoUnit.MINUTES).isAfter(scraper.getDriverCreationTime())){
-                logger.info("Restarting {} driver due to 30 minutes past driver creation", scraper.getDriverName());
+            if(Instant.now().minus(20, ChronoUnit.MINUTES).isAfter(scraper.getDriverCreationTime())){
+                logger.info("Restarting {} driver due to 20 minutes past driver creation", scraper.getDriverName());
                 scraper.restartDriver();
             } else {
-                logger.info("{} Driver due to 30 minutes past driver creation", scraper.getDriverName());
+                logger.info("{} Driver due to 20 minutes past driver creation", scraper.getDriverName());
             }
             scraper.scrape();
             logger.info("Next scrape for {}", scraper.getDriverName());
