@@ -66,10 +66,10 @@ public class ScraperTaskScheduler {
                 logger.info("Restarting {} driver due to 20 minutes past driver creation", scraper.getDriverName());
                 scraper.restartDriver();
             } else {
-                logger.info("{} Driver due to 20 minutes past driver creation", scraper.getDriverName());
+                logger.info("{} Driver due to restart in {} minutes past driver creation", scraper.getDriverName(), ChronoUnit.MINUTES.between(scraper.getDriverCreationTime(), Instant.now()));
             }
             scraper.scrape();
-            logger.info("Next scrape for {}", scraper.getDriverName());
+            logger.info("Scrape for {} just completed", scraper.getDriverName());
         } else {
             logger.info("Outside of allowed time window ({} - {}). Skipping. Driver: {}", start, end, scraper.getDriverName());
         }

@@ -25,9 +25,9 @@ public class AsxScraper extends AbstractSiteScraper {
     protected void performScraping() {
         driver.get("https://www.asx.com.au/markets/trade-our-cash-market/announcements");
         System.out.println(driver.getTitle());
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement acceptButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("onetrust-accept-btn-handler")));
-        acceptButton.click();
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement acceptButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("onetrust-accept-btn-handler")));
+//        acceptButton.click();
 
         List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 

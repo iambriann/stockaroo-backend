@@ -33,7 +33,7 @@ public class AusTradingDayScraper extends AbstractSiteScraper {
             Article article = new Article(now,
                 "The Australian Trading Day",
                 e.findElement(By.className("livecoverage-posts_title")).getText(),
-                "Not available",
+                "None (Australian Trading Day provides no descriptions)",
                 now,
                 e.findElement(By.className("livecoverage-posts_title")).findElement(By.tagName("a")).getAttribute("href")
             );
