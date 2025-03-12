@@ -25,15 +25,22 @@ public class AsxScraper extends AbstractSiteScraper {
     protected void performScraping() {
         driver.get("https://www.asx.com.au/markets/trade-our-cash-market/announcements");
         System.out.println(driver.getTitle());
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement acceptButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("onetrust-accept-btn-handler")));
-//        acceptButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement acceptButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("onetrust-accept-btn-handler")));
+        acceptButton.click();
 
-        List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        //List<WebElement> newsElements = driver.findElement(By.cssSelector(".table.table-bordered")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        List<WebElement> newsElements = driver.findElements(By.xpath("//*[@id='content']/div/announcement_data/table/tbody/tr"));
 
+
+        int i=0; // want to skip the 1st <tr> which is just headers
         for (WebElement e : newsElements) {
 
-            String priceSensitive = e.findElement(By.className("price-sensitive")).getText();
+            if(i==0) {
+                i++;
+                continue;
+            }
+            String priceSensitive = e.findElement(By.className("pricesens")).getText();
             if(priceSensitive.equals("no")) {
                 continue;
             }
@@ -42,7 +49,7 @@ public class AsxScraper extends AbstractSiteScraper {
             Article article = new Article(now,
                     "ASX Announcement",
                     //e.findElement(By.xpath("./td[2]")).getText() + " ASX announcement for " + e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
-                    "ASX announcement for " + e.findElement(By.cssSelector(".list.hidden-xs")).getText(),
+                    "ASX announcement for " + e.findElement(By.xpath("./td[1]")).getText(),
                     e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getText().split("\n")[0],
                     now,
                     e.findElement(By.xpath("./td[6]")).findElement(By.tagName("a")).getAttribute("href")

@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -37,10 +38,13 @@ public class SchedulerConfig {
     @Value("${CORS_ORIGIN_URL}")
     private String corsOriginUrl;
 
+    @Value("${CORS_ORIGIN_URL_WWW}")
+    private String corsOriginUrlWWW;
+
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin(corsOriginUrl);  // Dynamic origin URL
+        config.setAllowedOrigins(Arrays.asList(corsOriginUrl, corsOriginUrlWWW));  // Dynamic origin URL
         config.addAllowedMethod("*");  // Allow all HTTP methods
         config.addAllowedHeader("*");  // Allow all headers
         return new CorsFilter(request -> config);
@@ -68,10 +72,10 @@ public class SchedulerConfig {
         return new AusTradingDayScraper(articleService);
     }
 
-    @Bean
-    public AbstractSiteScraper asxScraper(ArticleService articleService) {
-        return new AsxScraper(articleService);
-    }
+//    @Bean
+//    public AbstractSiteScraper asxScraper(ArticleService articleService) {
+//        return new AsxScraper(articleService);
+//    }
 
     @Bean
     public ScraperTaskScheduler scraperTaskScheduler(List<AbstractSiteScraper> scrapers) {
