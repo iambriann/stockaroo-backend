@@ -22,7 +22,13 @@ jobs:
         run: |
           echo "CORS_ORIGIN_URL=${{ secrets.CORS_ORIGIN_URL }}" > cors_url.txt
           # You can replace the CORS URL in your Java code or config file like this:
-          sed -i 's|<CORS_ORIGIN_URL>|${{ secrets.CORS_ORIGIN_URL }}|g' src/main/resources/application.properties          
+          sed -i 's|<CORS_ORIGIN_URL>|${{ secrets.CORS_ORIGIN_URL }}|g' src/main/resources/application.properties      
+
+      - name: Set CORS WWW origin in the application
+        run: |
+          echo "CORS_ORIGIN_URL_WWW=${{ secrets.CORS_ORIGIN_URL_WWW }}" > cors_url.txt
+          # You can replace the CORS URL in your Java code or config file like this:
+          sed -i 's|<CORS_ORIGIN_URL_WWW>|${{ secrets.CORS_ORIGIN_URL_WWW }}|g' src/main/resources/application.properties              
 
       - name: Update db connection string
         run: sed -i 's|<DB_CONNECTION_STRING>|${{ secrets.DB_CONNECTION_STRING }}|' src/main/resources/application.properties
