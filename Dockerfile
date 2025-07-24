@@ -1,7 +1,7 @@
 FROM openjdk:17-jdk-slim
 # please review all the latest versions here:
 # https://googlechromelabs.github.io/chrome-for-testing/
-ENV CHROMEDRIVER_VERSION=133.0.6943.126
+ENV CHROMEDRIVER_VERSION=138.0.7204.168
 
 ### install chrome
 RUN apt-get update && apt-get install -y wget && apt-get install -y zip
